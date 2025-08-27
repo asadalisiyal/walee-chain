@@ -520,8 +520,8 @@ async function printClaimSpecificMsg(sender, claimer, ...assets) {
 
 async function isDocker() {
     return new Promise((resolve, reject) => {
-        exec("docker ps --filter 'name=sei-node-0' --format '{{.Names}}'", (error, stdout, stderr) => {
-            if (stdout.includes('sei-node-0')) {
+        exec("docker ps --filter 'name=walee-node-0' --format '{{.Names}}'", (error, stdout, stderr) => {
+            if (stdout.includes('walee-node-0')) {
                 resolve(true)
             } else {
                 resolve(false)
@@ -548,7 +548,7 @@ async function execute(command, interaction=`printf "12345678\\n"`){
     if (await isDocker()) {
         command = command.replace(/\.\.\//g, "/sei-protocol/sei-chain/");
         command = command.replace("/sei-protocol/sei-chain//sei-protocol/sei-chain/", "/sei-protocol/sei-chain/")
-        command = `docker exec sei-node-0 /bin/bash -c 'export PATH=$PATH:/root/go/bin:/root/.foundry/bin && ${interaction} | ${command}'`;
+        command = `docker exec walee-node-0 /bin/bash -c 'export PATH=$PATH:/root/go/bin:/root/.foundry/bin && ${interaction} | ${command}'`;
     }
     return await execCommand(command);
 }

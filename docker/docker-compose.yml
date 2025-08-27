@@ -1,7 +1,7 @@
 services:
   node0:
     platform: linux/amd64
-    container_name: sei-node-0
+    container_name: walee-node-0
     image: "sei-chain/localnode"
     user: "${USERID}:${GROUPID}"
     ports:
@@ -30,7 +30,7 @@ services:
 
   node1:
     platform: linux/amd64
-    container_name: sei-node-1
+    container_name: walee-node-1
     image: "sei-chain/localnode"
     user: "${USERID}:${GROUPID}"
     ports:
@@ -58,7 +58,7 @@ services:
 
   node2:
     platform: linux/amd64
-    container_name: sei-node-2
+    container_name: walee-node-2
     image: "sei-chain/localnode"
     user: "${USERID}:${GROUPID}"
     environment:
@@ -86,7 +86,7 @@ services:
 
   node3:
     platform: linux/amd64
-    container_name: sei-node-3
+    container_name: walee-node-3
     image: "sei-chain/localnode"
     user: "${USERID}:${GROUPID}"
     environment:
