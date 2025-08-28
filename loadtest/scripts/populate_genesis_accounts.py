@@ -33,6 +33,7 @@ def add_key(account_name, local=False):
 
 def dump_account_data_to_file(account_name, address, mnemonic):
     filename = f"{home_path}/test_accounts/{account_name}.json"
+
     os.makedirs(os.path.dirname(filename), exist_ok=True)
     with open(filename, 'w') as f:
         data = {
@@ -55,7 +56,7 @@ def create_genesis_account(account_index, account_name, local=False):
             "address": address,
             "coins": [
                 {
-                    "denom": "usei",
+                    "denom": "uwle",
                     "amount": "1000000000000000000000000"
                 }
             ]
@@ -94,7 +95,7 @@ def main():
     if len(args) > 1 and args[1] == "loc":
         is_local = True
 
-    genesis_json_file_path = f"{home_path}/.sei/config/genesis.json"
+    genesis_json_file_path = f"{home_path}/.wle/config/genesis.json"
     genesis_file = read_genesis_file(genesis_json_file_path)
 
     num_threads = max(1, number_of_accounts // PARALLEISM)

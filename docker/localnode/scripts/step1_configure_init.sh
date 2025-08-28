@@ -18,9 +18,9 @@ seid version # Uncomment the below line if there are any dependency issues
 # ldd build/seid
 
 # Initialize validator node
-MONIKER="sei-node-$NODE_ID"
+MONIKER="wle-node-$NODE_ID"
 
-seid init "$MONIKER" --chain-id sei >/dev/null 2>&1
+seid init "$MONIKER" --chain-id wle >/dev/null 2>&1
 
 # Copy configs
 ORACLE_CONFIG_FILE="build/generated/node_$NODE_ID/price_feeder_config.toml"
@@ -46,11 +46,11 @@ GENESIS_ACCOUNT_ADDRESS=$(printf "12345678\n" | seid keys show "$ACCOUNT_NAME" -
 echo "$GENESIS_ACCOUNT_ADDRESS" >> build/generated/genesis_accounts.txt
 
 # Add funds to genesis account
-seid add-genesis-account "$GENESIS_ACCOUNT_ADDRESS" 10000000usei,10000000uusdc,10000000uatom
+seid add-genesis-account "$GENESIS_ACCOUNT_ADDRESS" 10000000uwle,10000000uusdc,10000000uatom
 
 # Create gentx
-printf "12345678\n" | seid gentx "$ACCOUNT_NAME" 10000000usei --chain-id sei
-cp ~/.sei/config/gentx/* build/generated/gentx/
+printf "12345678\n" | seid gentx "$ACCOUNT_NAME" 10000000uwle --chain-id wle
+cp ~/.wle/config/gentx/* build/generated/gentx/
 
 # Creating some testing accounts
 echo "Creating $NUM_ACCOUNTS accounts"
