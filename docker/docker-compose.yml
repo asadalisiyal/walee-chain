@@ -30,7 +30,7 @@ services:
 
   node1:
     platform: linux/amd64
-    container_name: wle-node-1
+    container_name: walee-node-1
     image: "sei-chain/localnode"
     user: "${USERID}:${GROUPID}"
     ports:
