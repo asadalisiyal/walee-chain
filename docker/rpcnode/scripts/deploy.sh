@@ -13,17 +13,17 @@ echo "export PATH=$GOBIN:$PATH:/usr/local/go/bin:$BUILD_PATH" >> /root/.bashrc
 /bin/bash -c "source /root/.bashrc"
 mkdir -p $GOBIN
 
-# Step 1 build seid
+# Step 1 build wled
 if [ -z "$SKIP_BUILD" ]
 then
   /usr/bin/build.sh
 fi
-cp build/seid "$GOBIN"/
+cp build/wled "$GOBIN"/
 
 # Run init to set up state sync configurations
 /usr/bin/configure_init.sh
 
 # Start the chain
-/usr/bin/start_sei.sh
+/usr/bin/start_wled.sh
 
 tail -f /dev/null

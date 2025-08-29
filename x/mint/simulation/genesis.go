@@ -8,14 +8,13 @@ import (
 	"math/rand"
 	"time"
 
-	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/types/module"
 	"github.com/sei-protocol/sei-chain/x/mint/types"
 )
 
 // RandomizedGenState generates a random GenesisState for mint.
 func RandomizedGenState(simState *module.SimulationState) {
-	mintDenom := sdk.DefaultBondDenom
+	mintDenom := "uwle"
 	randomProvision := uint64(rand.Int63n(1000000))
 	currentDate := time.Now()
 	// Epochs are every minute, set reduction period to be 1 year

@@ -5,7 +5,7 @@ NODE_ID=${ID:-0}
 NUM_ACCOUNTS=${NUM_ACCOUNTS:-5}
 echo "Configure and initialize environment"
 
-cp build/seid "$GOBIN"/
+cp build/wled "$GOBIN"/
 cp build/price-feeder "$GOBIN"/
 
 # Prepare shared folders
@@ -13,14 +13,14 @@ mkdir -p build/generated/gentx/
 mkdir -p build/generated/exported_keys/
 mkdir -p build/generated/node_"$NODE_ID"
 
-# Testing whether seid works or not
-seid version # Uncomment the below line if there are any dependency issues
-# ldd build/seid
+# Testing whether wled works or not
+wled version # Uncomment the below line if there are any dependency issues
+# ldd build/wled
 
 # Initialize validator node
 MONIKER="wle-node-$NODE_ID"
 
-seid init "$MONIKER" --chain-id wle >/dev/null 2>&1
+wled init "$MONIKER" --chain-id wle >/dev/null 2>&1
 
 # Copy configs
 ORACLE_CONFIG_FILE="build/generated/node_$NODE_ID/price_feeder_config.toml"
@@ -32,24 +32,24 @@ cp docker/localnode/config/price_feeder_config.toml "$ORACLE_CONFIG_FILE"
 
 
 # Set up persistent peers
-SEI_NODE_ID=$(seid tendermint show-node-id)
+SEI_NODE_ID=$(wled tendermint show-node-id)
 NODE_IP=$(hostname -i | awk '{print $1}')
 echo "$SEI_NODE_ID@$NODE_IP:26656" >> build/generated/persistent_peers.txt
 
 # Create a new account
 ACCOUNT_NAME="node_admin"
 echo "Adding account $ACCOUNT_NAME"
-printf "12345678\n12345678\ny\n" | seid keys add "$ACCOUNT_NAME" >/dev/null 2>&1
+printf "12345678\n12345678\ny\n" | wled keys add "$ACCOUNT_NAME" >/dev/null 2>&1
 
 # Get genesis account info
-GENESIS_ACCOUNT_ADDRESS=$(printf "12345678\n" | seid keys show "$ACCOUNT_NAME" -a)
+GENESIS_ACCOUNT_ADDRESS=$(printf "12345678\n" | wled keys show "$ACCOUNT_NAME" -a)
 echo "$GENESIS_ACCOUNT_ADDRESS" >> build/generated/genesis_accounts.txt
 
 # Add funds to genesis account
-seid add-genesis-account "$GENESIS_ACCOUNT_ADDRESS" 10000000uwle,10000000uusdc,10000000uatom
+wled add-genesis-account "$GENESIS_ACCOUNT_ADDRESS" 10000000uwle,10000000uusdc,10000000uatom
 
 # Create gentx
-printf "12345678\n" | seid gentx "$ACCOUNT_NAME" 10000000uwle --chain-id wle
+printf "12345678\n" | wled gentx "$ACCOUNT_NAME" 10000000uwle --chain-id wle
 cp ~/.wle/config/gentx/* build/generated/gentx/
 
 # Creating some testing accounts
@@ -58,8 +58,8 @@ python3 loadtest/scripts/populate_genesis_accounts.py "$NUM_ACCOUNTS" loc >/dev/
 echo "Finished $NUM_ACCOUNTS accounts creation"
 
 # Set node seivaloper info
-SEIVALOPER_INFO=$(printf "12345678\n" | seid keys show "$ACCOUNT_NAME" --bech=val -a)
-PRIV_KEY=$(printf "12345678\n12345678\n" | seid keys export "$ACCOUNT_NAME")
+SEIVALOPER_INFO=$(printf "12345678\n" | wled keys show "$ACCOUNT_NAME" --bech=val -a)
+PRIV_KEY=$(printf "12345678\n12345678\n" | wled keys export "$ACCOUNT_NAME")
 echo "$PRIV_KEY" >> build/generated/exported_keys/"$SEIVALOPER_INFO".txt
 
 # Update price_feeder_config.toml with address info

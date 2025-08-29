@@ -3,13 +3,13 @@
 # Set up GO PATH
 echo "Configure and initialize environment"
 
-# Testing whether seid works or not
-seid version # Uncomment the below line if there are any dependency issues
-# ldd build/seid
+# Testing whether wled works or not
+wled version # Uncomment the below line if there are any dependency issues
+# ldd build/wled
 
 # Initialize validator node
 MONIKER="sei-rpc-node"
-seid init --chain-id sei "$MONIKER"
+wled init --chain-id wle "$MONIKER"
 
 # Copy configs
 cp docker/rpcnode/config/app.toml ~/.sei/config/app.toml

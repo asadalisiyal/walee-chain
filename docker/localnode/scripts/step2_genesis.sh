@@ -7,7 +7,7 @@ echo "Preparing genesis file"
 
 ACCOUNT_NAME="admin"
 echo "Adding account $ACCOUNT_NAME"
-printf "12345678\n12345678\ny\n" | seid keys add $ACCOUNT_NAME >/dev/null 2>&1
+printf "12345678\n12345678\ny\n" | wled keys add $ACCOUNT_NAME >/dev/null 2>&1
 
 override_genesis() {
   cat ~/.wle/config/genesis.json | jq "$1" > ~/.wle/config/tmp_genesis.json && mv ~/.wle/config/tmp_genesis.json ~/.wle/config/genesis.json;
@@ -49,11 +49,11 @@ override_genesis '.app_state["gov"]["tally_params"]["expedited_threshold"]="0.9"
 # add genesis accounts for each node
 while read account; do
   echo "Adding: $account"
-  seid add-genesis-account "$account" 1000000000000000000000uwle,1000000000000000000000uusdc,1000000000000000000000uatom
+  wled add-genesis-account "$account" 1000000000000000000000uwle,1000000000000000000000uusdc,1000000000000000000000uatom
 done <build/generated/genesis_accounts.txt
 
 # add funds to admin account
-printf "12345678\n" | seid add-genesis-account admin 1000000000000000000000uwle,1000000000000000000000uusdc,1000000000000000000000uatom
+printf "12345678\n" | wled add-genesis-account admin 1000000000000000000000uwle,1000000000000000000000uusdc,1000000000000000000000uatom
 
 mkdir -p ~/exported_keys
 cp -r build/generated/gentx/* ~/.wle/config/gentx
@@ -64,7 +64,7 @@ cp -r build/generated/exported_keys ~/exported_keys
 
 # collect gentxs
 echo "Collecting all gentx"
-seid collect-gentxs >/dev/null 2>&1
+wled collect-gentxs >/dev/null 2>&1
 
 cp ~/.wle/config/genesis.json build/generated/genesis.json
 echo "Genesis file has been created successfully"

@@ -157,7 +157,7 @@ def load_mempool_config_from_toml(path: Path) -> Tuple[Optional[str], Optional[i
 
 def main():
     failures = 0
-    print(head("Seid Problem Detector"))
+    print(head("Wled Problem Detector"))
     status, msg, extra = ensure_ubuntu()
     if status == "fail":
         print(style_fail(f"{extra} {msg}")); failures += 1

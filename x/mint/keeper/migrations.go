@@ -38,7 +38,7 @@ func (m Migrator) Migrate2to3(ctx sdk.Context) error {
 	v3Minter := types.Minter{
 		StartDate:           v2Minter.GetLastMintDate(),
 		EndDate:             v2Minter.GetLastMintDate(),
-		Denom:               sdk.DefaultBondDenom,
+		Denom:               "uwle",
 		TotalMintAmount:     v2Minter.LastMintAmount.RoundInt().Uint64(),
 		RemainingMintAmount: 0,
 		LastMintDate:        v2Minter.GetLastMintDate(),

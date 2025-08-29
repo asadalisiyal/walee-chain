@@ -19,7 +19,7 @@ STUCK_COUNTER=0
 # Loop until the target block height is reached or the service dies, or it gets stuck on target-1 block
 while true; do
    # Check if the service is running (it might panic at the height and not let us reach it)
-   if ! pgrep -f "seid start --chain-id sei" > /dev/null; then
+   if ! pgrep -f "wled start --chain-id wle" > /dev/null; then
       echo "Seid no longer running (panic)"
       break
    fi

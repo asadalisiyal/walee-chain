@@ -7,7 +7,6 @@ import (
 
 	yaml "gopkg.in/yaml.v2"
 
-	sdk "github.com/cosmos/cosmos-sdk/types"
 	paramtypes "github.com/cosmos/cosmos-sdk/x/params/types"
 )
 
@@ -34,7 +33,7 @@ func NewParams(
 // default minting module parameters
 func DefaultParams() Params {
 	return Params{
-		MintDenom:            sdk.DefaultBondDenom,
+		MintDenom:            "uwle",
 		TokenReleaseSchedule: []ScheduledTokenRelease{},
 	}
 }
@@ -80,8 +79,8 @@ func validateMintDenom(i interface{}) error {
 	if !ok {
 		return fmt.Errorf("invalid parameter type: %T", i)
 	}
-	if denomString != sdk.DefaultBondDenom {
-		return fmt.Errorf("mint denom must be the same as the default bond denom=%s", sdk.DefaultBondDenom)
+	if denomString != "uwle" {
+		return fmt.Errorf("mint denom must be the same as the default bond denom=uwle")
 	}
 
 	return nil

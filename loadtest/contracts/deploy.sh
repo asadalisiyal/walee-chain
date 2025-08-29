@@ -41,7 +41,7 @@ echo "Deploying contracts..."
 cd $seihome/loadtest/contracts
 # store
 echo "Storing..."
-jupiterstoreres=$(printf "12345678\n" | $seidbin tx wasm store jupiter/artifacts/jupiter.wasm -y --from=$keyname --chain-id=$chainid --gas=5000000 --fees=1000000usei --broadcast-mode=block --output=json)
+jupiterstoreres=$(printf "12345678\n" | $wledbin tx wasm store jupiter/artifacts/jupiter.wasm -y --from=$keyname --chain-id=$chainid --gas=5000000 --fees=1000000uwle --broadcast-mode=block --output=json)
 marsstoreres=$(printf "12345678\n" | $seidbin tx wasm store mars/artifacts/mars.wasm -y --from=$keyname --chain-id=$chainid --gas=5000000 --fees=1000000usei --broadcast-mode=block --output=json)
 saturnstoreres=$(printf "12345678\n" | $seidbin tx wasm store saturn/artifacts/saturn.wasm -y --from=$keyname --chain-id=$chainid --gas=5000000 --fees=1000000usei --broadcast-mode=block --output=json)
 venusstoreres=$(printf "12345678\n" | $seidbin tx wasm store venus/artifacts/venus.wasm -y --from=$keyname --chain-id=$chainid --gas=5000000 --fees=1000000usei --broadcast-mode=block --output=json)

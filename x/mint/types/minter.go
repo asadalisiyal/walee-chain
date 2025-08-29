@@ -34,7 +34,7 @@ func InitialMinter() Minter {
 	return NewMinter(
 		time.Time{}.Format(TokenReleaseDateFormat),
 		time.Time{}.Format(TokenReleaseDateFormat),
-		sdk.DefaultBondDenom,
+		"uwle",
 		0,
 	)
 }

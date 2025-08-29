@@ -9,11 +9,11 @@ ORACLE_ACCOUNT="oracle"
 VALIDATOR_ACCOUNT="node_admin"
 
 # Create an oracle account
-printf "12345678\n" | "$HOME/go/bin/seid" keys add $ORACLE_ACCOUNT --output json > "$HOME/.wle/config/oracle_key.json"
-ORACLE_ACCOUNT_ADDRESS=$(printf "12345678\n" | "$HOME/go/bin/seid" keys show $ORACLE_ACCOUNT -a)
-SEIVALOPER=$(printf "12345678\n" | "$HOME/go/bin/seid" keys show $VALIDATOR_ACCOUNT --bech=val -a)
-printf "12345678\n" | "$HOME/go/bin/seid" tx oracle set-feeder "$ORACLE_ACCOUNT_ADDRESS" --from $VALIDATOR_ACCOUNT --fees 2000uwle -b block -y --chain-id wle >/dev/null 2>&1
-printf "12345678\n" | "$HOME/go/bin/seid" tx bank send $VALIDATOR_ACCOUNT "$ORACLE_ACCOUNT_ADDRESS" --from $VALIDATOR_ACCOUNT 1000wle --fees 2000uwle -b block -y >/dev/null 2>&1
+printf "12345678\n" | "/sei-protocol/sei-chain/build/wled" keys add $ORACLE_ACCOUNT --output json > "$HOME/.wle/config/oracle_key.json"
+ORACLE_ACCOUNT_ADDRESS=$(printf "12345678\n" | "/sei-protocol/sei-chain/build/wled" keys show $ORACLE_ACCOUNT -a)
+SEIVALOPER=$(printf "12345678\n" | "/sei-protocol/sei-chain/build/wled" keys show $VALIDATOR_ACCOUNT --bech=val -a)
+printf "12345678\n" | "/sei-protocol/sei-chain/build/wled" tx oracle set-feeder "$ORACLE_ACCOUNT_ADDRESS" --from $VALIDATOR_ACCOUNT --fees 2000uwle -b block -y --chain-id wle >/dev/null 2>&1
+printf "12345678\n" | "/sei-protocol/sei-chain/build/wled" tx bank send $VALIDATOR_ACCOUNT "$ORACLE_ACCOUNT_ADDRESS" --from $VALIDATOR_ACCOUNT 1000wle --fees 2000uwle -b block -y >/dev/null 2>&1
 
 
 sed -i.bak -e "s|^address *=.*|address = \"$ORACLE_ACCOUNT_ADDRESS\"|" $ORACLE_CONFIG_FILE

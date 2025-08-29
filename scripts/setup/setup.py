@@ -72,14 +72,14 @@ def validate_clean_state():
         raise RuntimeError(f'The file {SEI_CONFIG_TOML_PATH} already exists. Please reset your {SEI_ROOT_DIR} state.')
     logging.info('Validated clean state.')
 
-    logging.info('Updating seid binary...')
+    logging.info('Updating wled binary...')
     run_command('make install')
     logging.info('make install successful.')
 
 
 def validate_version(version):
     """Validate that the version of the SEI blockchain software is correct."""
-    version_json_output = json.loads(run_command('seid version --long --output json'))
+    version_json_output = json.loads(run_command('wled version --long --output json'))
     if version_json_output['version'] != version:
         raise RuntimeError(f'Expected version {version} but got {version_json_output["version"]}')
 
@@ -93,9 +93,9 @@ def install_price_feeder():
 def set_price_feeder():
     """Set the price feeder."""
     logging.info('Setting price feeder...')
-    addr, _ = seid_add_key(ORACLE_PRICE_FEEDER_ACC_NAME)
+    addr, _ = wled_add_key(ORACLE_PRICE_FEEDER_ACC_NAME)
     run_with_password(
-        f'seid tx oracle set-feeder $(seid keys show {ORACLE_PRICE_FEEDER_ACC_NAME} -a) --from admin --yes --fees=2000usei',
+        f'wled tx oracle set-feeder $(wled keys show {ORACLE_PRICE_FEEDER_ACC_NAME} -a) --from admin --yes --fees=2000uwle',
         account_cache[ORACLE_PRICE_FEEDER_ACC_NAME].password
     )
     logging.info("Please send sei tokens to the feeder account '%s' to fund it", addr)
@@ -108,7 +108,7 @@ def output_price_feeder_config(chain_id):
         config = f.read()
 
     key_password = getpass('Please enter a password for the validator account key: \n')
-    val_addr = json.loads(run_with_password(f'seid keys show {DEFAULT_VALIDATOR_ACC_NAME} --bech=val --output json', key_password))['address']
+    val_addr = json.loads(run_with_password(f'wled keys show {DEFAULT_VALIDATOR_ACC_NAME} --bech=val --output json', key_password))['address']
 
     config = config.replace('<FEEDER_ADDR>', account_cache[ORACLE_PRICE_FEEDER_ACC_NAME].address)
     config = config.replace('<CHAIN_ID>', chain_id)
@@ -131,7 +131,7 @@ def cleanup_sei():
 def init_sei(chain_id, moniker):
     """Initialize the SEI blockchain."""
     logging.info('Initializing SEI blockchain...')
-    run_command(f'seid init {moniker} --chain-id {chain_id}')
+    run_command(f'wled init {moniker} --chain-id {chain_id}')
     logging.info('Initialized SEI blockchain.')
 
 
@@ -141,21 +141,21 @@ def save_content_to_file(content, file_path):
         f.write(content)
 
 
-def try_seid_delete_key(account_name, key_password):
+def try_wled_delete_key(account_name, key_password):
     try:
-        run_with_password(f'seid keys delete {account_name} -y', key_password)
+        run_with_password(f'wled keys delete {account_name} -y', key_password)
         logging.info("Deleted existing key if it exists.")
     except Exception:
         logging.info("No existing key found.")
 
 
-def seid_add_key(account_name):
+def wled_add_key(account_name):
     """Add a key to the SEI blockchain."""
     key_password = getpass(f'Please enter a password for the account={account_name}: \n')
-    try_seid_delete_key(account_name, key_password)
+    try_wled_delete_key(account_name, key_password)
     logging.info("Deleted existing key if it exists.")
 
-    add_key_output = run_with_password(f'seid keys add {account_name} --output json', key_password)
+    add_key_output = run_with_password(f'wled keys add {account_name} --output json', key_password)
 
     json_output = json.loads(add_key_output)
     address = json_output['address']
@@ -173,7 +173,7 @@ def seid_add_key(account_name):
 def add_genesis_account(account_name, starting_balance):
     """Add a genesis account to the SEI blockchain."""
     address = account_cache[account_name].address
-    run_command(f'seid add-genesis-account {address} {starting_balance}')
+    run_command(f'wled add-genesis-account {address} {starting_balance}')
     logging.info('Added genesis account %s with address %s', account_name, address)
     return address
 
@@ -181,7 +181,7 @@ def add_genesis_account(account_name, starting_balance):
 def gentx(chain_id, account_name, starting_delegation, gentx_args):
     """Generate a gentx for the validator node."""
     account = account_cache[account_name]
-    output = run_with_password(f'seid gentx {account.account_name} {starting_delegation} --chain-id={chain_id} {gentx_args}', account.password)
+    output = run_with_password(f'wled gentx {account.account_name} {starting_delegation} --chain-id={chain_id} {gentx_args}', account.password)
     logging.info(output)
 
 def setup_validator(args):
@@ -194,7 +194,7 @@ def setup_validator(args):
     set_git_root_as_current_working_dir()
     validate_clean_state()
     init_sei(args.chain_id, args.moniker)
-    seid_add_key(DEFAULT_VALIDATOR_ACC_NAME)
+    wled_add_key(DEFAULT_VALIDATOR_ACC_NAME)
 
 def prepare_genesis(args):
     """Prepare the genesis file."""

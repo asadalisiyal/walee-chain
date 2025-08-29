@@ -1,11 +1,11 @@
 #!/bin/bash
-seidbin=$(which ~/go/bin/seid | tr -d '"')
-keyname=$(printf "12345678\n" | $seidbin keys list --output json | jq ".[0].name" | tr -d '"')
-chainid=$($seidbin status | jq ".NodeInfo.network" | tr -d '"')
+wledbin=$(which ~/go/bin/wled | tr -d '"')
+keyname=$(printf "12345678\n" | $wledbin keys list --output json | jq ".[0].name" | tr -d '"')
+chainid=$($wledbin status | jq ".NodeInfo.network" | tr -d '"')
 seihome=$(git rev-parse --show-toplevel | tr -d '"')
 
 echo $keyname
-echo $seidbin
+echo $wledbin
 echo $chainid
 echo $seihome
 
@@ -30,7 +30,7 @@ echo "Deploying contracts..."
 cd $seihome/loadtest/contracts
 # store
 echo "Storing..."
-marsstoreres=$(printf "12345678\n" | $seidbin tx wasm store mars/artifacts/mars.wasm -y --from=$keyname --chain-id=$chainid --gas=5000000 --fees=1000000usei --broadcast-mode=block --output=json)
+marsstoreres=$(printf "12345678\n" | $wledbin tx wasm store mars/artifacts/mars.wasm -y --from=$keyname --chain-id=$chainid --gas=5000000 --fees=1000000uwle --broadcast-mode=block --output=json)
 saturnstoreres=$(printf "12345678\n" | $seidbin tx wasm store saturn/artifacts/saturn.wasm -y --from=$keyname --chain-id=$chainid --gas=5000000 --fees=1000000usei --broadcast-mode=block --output=json)
 venusstoreres=$(printf "12345678\n" | $seidbin tx wasm store venus/artifacts/venus.wasm -y --from=$keyname --chain-id=$chainid --gas=5000000 --fees=1000000usei --broadcast-mode=block --output=json)
 marsid=$(python3 parser.py code_id $marsstoreres)

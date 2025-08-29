@@ -5,12 +5,12 @@ NODE_ID=${ID:-0}
 ARCH=$(uname -m)
 MOCK_BALANCES=${MOCK_BALANCES:-false}
 
-# Build seid
-echo "Building seid from local branch"
+# Build wled
+echo "Building wled from local branch"
 git config --global --add safe.directory /sei-protocol/sei-chain
 export LEDGER_ENABLED=false
 make clean
-# build seid with the mock balance function enabled
+# build wled with the mock balance function enabled
 if [ "$MOCK_BALANCES" = true ]; then
     echo "Building with mock balances enabled..."
     make build-linux BUILD_TAGS="mock_balances"
